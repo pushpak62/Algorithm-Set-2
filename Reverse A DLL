@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node* prev;
+
+    Node(int new_data) {
+        data = new_data;
+        next = NULL;
+        prev = NULL;
+    }
+};
+
+// Function to reverse a doubly linked list
+Node* reverse(Node* head) {
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+    
+    Node*prev=NULL;
+    Node*curr=head;
+    
+    while(curr!=NULL){
+        
+        prev=curr->prev;
+        curr->prev=curr->next;
+        curr->next=prev;
+        curr=curr->prev;
+    }
+    return prev->prev;
+};
+
+void printList(Node* node) {
+    while (node != nullptr) {
+        cout << node->data << " ";
+        node = node->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    // Create: 1 <-> 2 <-> 3 <-> 4
+    Node* head = new Node(1);
+    head->next = new Node(2);
+    head->next->prev = head;
+    head->next->next = new Node(3);
+    head->next->next->prev = head->next;
+    head->next->next->next = new Node(4);
+    head->next->next->next->prev = head->next->next;
+
+    cout << "Original Doubly Linked List\n";
+    printList(head);
+
+    head = reverse(head);
+
+    cout << "Reversed Doubly Linked List\n";
+    printList(head);
+
+    return 0;
+}
